@@ -2,7 +2,11 @@ import subprocess
 import os
 
 print('Proceso padre:', os.getpid())
-p = subprocess.Popen(['python', 'suma_numeros.py'], stdout=subprocess.PIPE, stdin=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+p = subprocess.Popen(['python', 'suma_numeros.py'],
+                     stdout=subprocess.PIPE,
+                     stdin=subprocess.PIPE,
+                     stderr=subprocess.PIPE,
+                     text=True)
 
 print('Proceso hijo', p.pid)
 p.stdin.write('1\n')
