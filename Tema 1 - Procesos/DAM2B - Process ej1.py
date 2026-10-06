@@ -1,3 +1,8 @@
-# Proceso Padre: crea tantos procesos hijos como núcleos
-# Proceso hijo: imprime por pantalla un saludo junto con su pid, duerme 3 segundos y se despide.
+# Proceso Padre:
+# 1. Genera una lista que contiene tantas listas como núcleos tiene el ordenador ( multiprocessing.cpu_count() ). Cada una de estas listas internas tiene 10 números enteros generados de manera aleatoria.
+# Ejemplo de datos para 2 núcleos/procesos -> [ [1, 3, 5], [2, 4, 6] ]
+# 2. Crea tantos procesos hijos como núcleos tiene el ordenador. A cada proceso hijo se le manda una lista de números
+# 3. Espera a que acaben los procesos hijos.
+
+# Procesos hijos: recibe una lista de números enteros e imprime por pantalla la suma, indicando su PID
 # PISTA: El pid se puede obtener a partir de la función os.getpid()
