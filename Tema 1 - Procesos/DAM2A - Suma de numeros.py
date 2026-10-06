@@ -40,6 +40,20 @@ def dividir_datos(datos, n_trozos):
 
     return datos_troceados
 
+def dividir_datos_2(datos, n_trozos):
+
+    tamano_trozo = len(datos) // n_trozos
+    sobrantes = len(datos) % n_trozos
+
+    datos_troceados = []
+    inicio = 0
+    for i in range(n_trozos):
+        fin = inicio + tamano_trozo + (1 if i < sobrantes else 0)
+        datos_troceados.append(datos[inicio:fin])
+        inicio = fin
+
+    return datos_troceados
+
 
 if __name__ == '__main__':
     datos = list(range(1024))
