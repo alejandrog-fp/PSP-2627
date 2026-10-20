@@ -1,6 +1,6 @@
 import hashlib
 import base64
-from multiprocessing import Process, cpu_count, current_process
+from multiprocessing import Process, cpu_count, current_process, Event
 
 def generar_sha1_b64(texto: str) -> str:
     # 1. Convertir el texto a bytes (UTF-8)
@@ -39,12 +39,14 @@ if __name__ == '__main__':
 
     N_PROCESS = cpu_count()
 
-    print('[PADRE] Inicio lectura hashes.txt')
-    with open('hashes.txt', 'rt', encoding='utf8') as f:
-        hashes = [hash.strip() for hash in f.readlines()]
+    # print('[PADRE] Inicio lectura hashes.txt')
+    # with open('hashes.txt', 'rt', encoding='utf8') as f:
+    #     hashes = [hash.strip() for hash in f.readlines()]
+    #
+    # hash = hashes[0]
+    hash = 'dDrIenB5eYDu55FeW+89uT4AoOw='
 
-    hash = hashes[0]
-    print('[PADRE] Fin lectura hashes.txt')
+    # print('[PADRE] Fin lectura hashes.txt')
 
     print('[PADRE] Inicio lectura rockyou.txt')
     with open('rockyou.txt' , 'rt', encoding='latin-1') as f:
@@ -56,9 +58,10 @@ if __name__ == '__main__':
 
     print(f'[PADRE] Voy a crear {N_PROCESS} procesos')
     procesos = []
+
     for i in range(N_PROCESS):
         p = Process(target = instrucciones ,
-                    args = [hash, passwords_troceados[i] ] ,
+                    args = [ hash, passwords_troceados[i] ] ,
                     name = f'Proceso-{i}')
         procesos.append(p)
 

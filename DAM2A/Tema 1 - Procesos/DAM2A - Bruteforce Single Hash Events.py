@@ -37,17 +37,20 @@ def instrucciones( hash: str, passwords: list[str]) -> None:
             break
 
 
-def instrucciones_event( hash: str, passwords: list[str], bandera: Event ) -> None:
-
+def instrucciones_evento(hash, passwords, bandera) -> None:
+    nombre = current_process().name
     for i, password in enumerate(passwords):
-        if (i % 100 == 0) and not bandera.is_set():
-            if generar_sha1_b64(password) == hash:
-                print(f'[{current_process().name}] {hash} -> {password}')
-                bandera.set()
-                break
-        else:
-            print(f'[{current_process().name}] Password encontrado por otro proceso.')
+        # Cada 100 intentos, comprobar si otro proceso ya lo encontró
+        if i % 100 == 0 and bandera.is_set():
+            print(f'[{nombre}] Otro proceso ha encontrado el password')
             break
+
+        if generar_sha1_b64(password) == hash:
+            print(f'[{nombre}] {hash} -> {password}')
+            bandera.set()
+            break
+    else:
+        print(f'[{nombre}] Otro proceso ha encontrado el password')
 
 
 if __name__ == '__main__':

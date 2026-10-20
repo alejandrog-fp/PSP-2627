@@ -5,7 +5,7 @@ import subprocess
 import os
 
 print(f'Proceso iniciado PID: {os.getpid()}')
-# subprocess.run('python "DAM2A - sleep.py"')
-# subprocess.run(['python' , 'DAM2A - sleep.py'])
-subprocess.Popen(['python' , 'DAM2A - sleep.py']) # No bloquea la ejecución
+# subprocess.run('python "DAM2A - Practica sleep.py"')
+# subprocess.run(['python' , 'DAM2A - Practica sleep.py'])
+subprocess.Popen(['python' , 'DAM2A - Practica sleep.py']) # No bloquea la ejecución
 print('Proceso finalizado')
