@@ -1,8 +1,8 @@
 # Ejercicio 1
 
 Crea un script que realice las siguientes instrucciones:
-1. Cargue la información almacenada en el archivo ``data.json``. 
-La manera de cargar dicha información se haría con las siguientes líneas de código:
+1. Cargue la información almacenada en el archivo ``data.json``.
+   La manera de cargar dicha información se haría con las siguientes líneas de código:
 ```python
 import json
 
