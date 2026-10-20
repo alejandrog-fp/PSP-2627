@@ -29,11 +29,24 @@ def dividir_datos(datos, n_trozos):
 
     return datos_troceados
 
-def instrucciones( hash: str, passwords: list[str], bandera: Event ) -> None:
+def instrucciones( hash: str, passwords: list[str]) -> None:
 
     for password in passwords:
         if generar_sha1_b64(password) == hash:
             print(f'[{current_process().name}] {hash} -> {password}')
+            break
+
+
+def instrucciones_event( hash: str, passwords: list[str], bandera: Event ) -> None:
+
+    for i, password in enumerate(passwords):
+        if (i % 100 == 0) and not bandera.is_set():
+            if generar_sha1_b64(password) == hash:
+                print(f'[{current_process().name}] {hash} -> {password}')
+                bandera.set()
+                break
+        else:
+            print(f'[{current_process().name}] Password encontrado por otro proceso.')
             break
 
 
@@ -50,18 +63,35 @@ if __name__ == '__main__':
 
     print(f'[{current_process().name}] Se van a iniciar {N_PROCESOS} procesos.')
     # Creación de procesos
+    bandera = Event()
     procesos = []
     for i in range(N_PROCESOS):
-        p = Process(target=instrucciones ,
+        p = Process(target=instrucciones_event ,
                     name=f'Proceso-{i}',
-                    args= [ hash, passwords_trozos[i] ] )
+                    args= [ hash, passwords_trozos[i], bandera ] )
         procesos.append(p)
 
-    start = time.time()
+    start = time.perf_counter()
     for p in procesos:
         p.start()
 
     for p in procesos:
         p.join()
-    end = time.time()
+    end = time.perf_counter()
     print(f'[PADRE] Los procesos hijos acabaron. Tardaron {end-start} segundos')
+
+    procesos = []
+    for i in range(N_PROCESOS):
+        p = Process(target=instrucciones,
+                    name=f'Proceso-{i}',
+                    args=[hash, passwords_trozos[i]])
+        procesos.append(p)
+
+    start = time.perf_counter()
+    for p in procesos:
+        p.start()
+
+    for p in procesos:
+        p.join()
+    end = time.perf_counter()
+    print(f'[PADRE] Los procesos hijos acabaron. Tardaron {end - start} segundos')
