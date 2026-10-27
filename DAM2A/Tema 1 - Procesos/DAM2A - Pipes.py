@@ -14,7 +14,7 @@ class ProcesoHijo(Process):
         self.extremo_conexion.send('Ya me desperté padre. Buenos días')
 if __name__ == '__main__':
 
-    extremo_padre, extremo_hijo = Pipe()
+    extremo_hijo , extremo_padre = Pipe()
 
     p = ProcesoHijo('Juan', extremo_hijo)
     p.start()
