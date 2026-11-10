@@ -1,5 +1,6 @@
 from multiprocessing import Process, Pipe
 from multiprocessing.connection import PipeConnection
+import logging
 
 
 class MiProceso(Process):
