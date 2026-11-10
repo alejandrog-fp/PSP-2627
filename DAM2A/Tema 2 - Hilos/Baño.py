@@ -14,7 +14,12 @@ class Baño:
 
 
 class Persona(Thread):
-    pass
+    def __init__(self, nombre, baño):
+        super().__init__(name=nombre)
+        self.baño = baño
+
+    def run(self):
+        self.baño.usar()
 
 if __name__ == '__main__':
 
@@ -23,7 +28,7 @@ if __name__ == '__main__':
 
     hilos = []
     for persona in personas:
-        t = Persona(nombre=persona)
+        t = Persona(nombre=persona, baño=baño)
         hilos.append(t)
 
     for hilo in hilos:
