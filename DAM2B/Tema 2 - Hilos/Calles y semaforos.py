@@ -57,3 +57,46 @@
 # C) Investiga la diferencia entre Semaphore y BoundedSemaphore. ¿Qué
 #    pasa si llamas a release() más veces que a acquire() con cada uno?
 # =============================================================================
+
+
+import time
+from threading import Semaphore, Thread, current_thread, Lock
+import random
+
+
+class Calle:
+    def __init__(self):
+        self.semaforo = Semaphore(3)
+
+    def pasar(self):
+        print_hilos(f'{current_thread().name} espera para entrar en la calle.')
+        with self.semaforo:
+            print_hilos(f'{current_thread().name} ENTRA en la calle')
+            time.sleep(random.randint(1, 3))
+            print_hilos(f'{current_thread().name} SALE de la calle')
+
+class Coche(Thread):
+    def __init__(self, nombre):
+        super().__init__(name=nombre)
+    def run(self):
+        calle.pasar()
+
+def print_hilos(cadena):
+    with candado_print:
+        print(cadena)
+
+if __name__ == '__main__':
+
+    calle = Calle()
+    candado_print = Lock()
+
+    hilos = []
+    for i in range(10):
+        t = Coche(nombre=f'Coche-{i}')
+        hilos.append(t)
+
+    for t in hilos:
+        t.start()
+
+    for t in hilos:
+        t.join()
